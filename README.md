@@ -73,7 +73,7 @@ Los archivos y sus columnas están descritos en [docs/datos.md](docs/datos.md) y
 - **En la web, con GitHub Pages:**
   1. Ve a *Settings → Pages* y elige *Source: GitHub Actions*.
   2. El flujo `.github/workflows/publicar.yml` publica `dist/` cada vez que la verificación pasa en la rama principal.
-  3. El visor queda en `(https://sebascassal.github.io/que-dicen-las-politicas-publicas-de-bogota/)`.
+  3. El visor queda en `https://sebascassal.github.io/que-dicen-las-politicas-publicas-de-bogota/`.
 
 ## Construir y verificar
 
