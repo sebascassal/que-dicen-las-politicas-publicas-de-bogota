@@ -1,0 +1,118 @@
+{
+  "vivienda": {
+    "producto_esperado": {
+      "id": "P1742",
+      "nombre": "Subsidios de mejoramiento progresivo de vivienda ejecutados.",
+      "similitud": 0.946
+    },
+    "vecinas_esperadas": [
+      "vivienda",
+      "habitacional",
+      "vis",
+      "vip",
+      "arrendamiento",
+      "subsidio",
+      "progresivo",
+      "localizado"
+    ]
+  },
+  "empleo jóvenes": {
+    "producto_esperado": {
+      "id": "P0957",
+      "nombre": "Servicios de orientación e intermediación laboral para jóvenes egresados de formación medi",
+      "similitud": 0.656
+    },
+    "vecinas_esperadas": [
+      "joven",
+      "contenga",
+      "interes",
+      "vinculan",
+      "estetica",
+      "empleador",
+      "acceden",
+      "juventud"
+    ]
+  },
+  "carga logística": {
+    "producto_esperado": {
+      "id": "P1056",
+      "nombre": "Fondo de reposición de carga urbana para Bogotá",
+      "similitud": 0.767
+    },
+    "vecinas_esperadas": [
+      "carga",
+      "reposicion",
+      "flota",
+      "renovado",
+      "vehicular",
+      "proporcion",
+      "restriccion",
+      "cero"
+    ]
+  },
+  "humedal": {
+    "producto_esperado": {
+      "id": "P2320",
+      "nombre": "Programas de educación en obras y mantenimiento de canales y humedales",
+      "similitud": 0.8
+    },
+    "vecinas_esperadas": [
+      "humedal",
+      "proambiental",
+      "canal",
+      "obra",
+      "mantenimiento"
+    ]
+  },
+  "mujeres rurales": {
+    "producto_esperado": {
+      "id": "P0654",
+      "nombre": "Operación del Modelo de atención de las Casas de Igualdad de Oportunidades para las Mujere",
+      "similitud": 0.609
+    },
+    "vecinas_esperadas": [
+      "mujer",
+      "rural",
+      "campesina",
+      "condicion",
+      "genero",
+      "campesino",
+      "diferencia",
+      "ampliada"
+    ]
+  },
+  "turismo": {
+    "producto_esperado": {
+      "id": "P1324",
+      "nombre": "Estrategia para la promoción del turismo gastronómico en Bogotá",
+      "similitud": 0.928
+    },
+    "vecinas_esperadas": [
+      "turismo",
+      "colombia",
+      "turistica",
+      "valor",
+      "regional",
+      "metropolitano",
+      "cadena",
+      "competitividad"
+    ]
+  },
+  "datos abiertos": {
+    "producto_esperado": {
+      "id": "P1094",
+      "nombre": "Modelo de gobernanza de datos para el territorio inteligente diseñado",
+      "similitud": 0.765
+    },
+    "vecinas_esperadas": [
+      "dato",
+      "abierto",
+      "inteligente",
+      "recaudo",
+      "geografico",
+      "line",
+      "portal",
+      "publicado"
+    ]
+  }
+}

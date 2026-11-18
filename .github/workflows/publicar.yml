@@ -1,0 +1,52 @@
+# Publica el visor (dist/index.html) en GitHub Pages cuando «Verificar» termina bien en la rama principal.
+# Antes de usarlo: Settings → Pages → Source: GitHub Actions.
+name: Publicar en GitHub Pages
+
+on:
+  workflow_run:
+    workflows: [Verificar]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    # Solo publica lo que ya está en la rama principal de este repositorio. Sin estas condiciones, una solicitud de
+    # cambio enviada desde una bifurcación cuya rama se llame «main» también dispararía este flujo, que tiene permiso
+    # para escribir en Pages, con el código de esa bifurcación.
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # el mismo cambio que pasó la verificación
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Comprobar que dist/index.html está al día con datos/ y src/
+        run: python3 scripts/construir.py --comprobar
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+      - id: despliegue
+        uses: actions/deploy-pages@v5

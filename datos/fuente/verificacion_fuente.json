@@ -1,0 +1,268 @@
+{
+  "fuente": "https://www.sdp.gov.co/gestion-socioeconomica/conpes-dc/politicas-publicas",
+  "fecha_verificacion": "2026-11-04",
+  "archivos_publicados": 52,
+  "archivos_coinciden_con_lo_leido": true,
+  "planes_leidos": 51,
+  "productos_leidos": 3851,
+  "productos_no_vigentes": 1086,
+  "productos_vigentes": 2764,
+  "politicas_con_productos_vigentes": 47,
+  "excluidos": [
+    {
+      "instrumento": "CONPES D.C. 18",
+      "tema": "Familias",
+      "periodo": "2021-2025",
+      "motivo": "Plan cerrado con informe final; su formato antiguo no trae columna de vigencia.",
+      "claves": [
+        "familia",
+        "familias"
+      ]
+    },
+    {
+      "instrumento": "CONPES D.C. 19",
+      "tema": "Envejecimiento y Vejez",
+      "periodo": "2010-2025",
+      "motivo": "Plan cerrado con informe final; su formato antiguo no trae columna de vigencia.",
+      "claves": [
+        "vejez",
+        "envejecimiento",
+        "persona mayor",
+        "personas mayores",
+        "adulto mayor",
+        "adultos mayores"
+      ]
+    },
+    {
+      "instrumento": "CONPES D.C. 20",
+      "tema": "Fenómeno de Habitabilidad en Calle",
+      "periodo": "2015-2025",
+      "motivo": "Plan cerrado con informe final; su formato antiguo no trae columna de vigencia.",
+      "claves": [
+        "habitabilidad en calle",
+        "habitante de calle",
+        "habitantes de calle",
+        "habitabilidad"
+      ]
+    },
+    {
+      "instrumento": "CONPES D.C. 21",
+      "tema": "Adultez",
+      "periodo": "2011-2044",
+      "motivo": "Plan cerrado con informe final; su formato antiguo no trae columna de vigencia.",
+      "claves": [
+        "adultez",
+        "adulto",
+        "adultos",
+        "adulta",
+        "adultas"
+      ]
+    },
+    {
+      "instrumento": "CONPES D.C. 03",
+      "tema": "Servicio a la Ciudadanía",
+      "periodo": "2014",
+      "motivo": "Su archivo no trae columna de productos; la política fue sustituida por el CONPES D.C. 42 (2026), que sí está incluido.",
+      "claves": [
+        "servicio a la ciudadanía",
+        "atención a la ciudadanía",
+        "atención al ciudadano",
+        "servicio al ciudadano"
+      ]
+    }
+  ],
+  "otras_exclusiones": [
+    "Una fila sin texto de producto.",
+    "La Política de Bogotá 24/7, que sigue en formulación y no tiene plan de acción publicado."
+  ],
+  "por_politica": [
+    [
+      "CONPES D.C. 39",
+      238
+    ],
+    [
+      "CONPES D.C. 14",
+      192
+    ],
+    [
+      "CONPES D.C. 40",
+      160
+    ],
+    [
+      "CONPES D.C. 37",
+      138
+    ],
+    [
+      "CONPES D.C. 16",
+      137
+    ],
+    [
+      "CONPES D.C. 38",
+      101
+    ],
+    [
+      "CONPES D.C. 24",
+      99
+    ],
+    [
+      "CONPES D.C. 8",
+      99
+    ],
+    [
+      "Decreto 537 de 2023",
+      96
+    ],
+    [
+      "CONPES D.C. 27",
+      92
+    ],
+    [
+      "CONPES D.C. 1",
+      82
+    ],
+    [
+      "Decreto 477 de 2023",
+      78
+    ],
+    [
+      "Decreto 089 de 2023",
+      76
+    ],
+    [
+      "Decreto 034 de 2023",
+      72
+    ],
+    [
+      "CONPES D.C. 11",
+      72
+    ],
+    [
+      "CONPES D.C. 5",
+      67
+    ],
+    [
+      "CONPES D.C. 41",
+      55
+    ],
+    [
+      "CONPES D.C. 31",
+      49
+    ],
+    [
+      "Decreto 561 de 2022",
+      47
+    ],
+    [
+      "CONPES D.C. 35",
+      44
+    ],
+    [
+      "CONPES D.C. 26",
+      44
+    ],
+    [
+      "CONPES D.C. 2",
+      44
+    ],
+    [
+      "Decreto 600 de 2023",
+      43
+    ],
+    [
+      "CONPES D.C. 9",
+      43
+    ],
+    [
+      "CONPES D.C. 6",
+      38
+    ],
+    [
+      "CONPES D.C. 15",
+      36
+    ],
+    [
+      "Decreto 233 de 2023",
+      35
+    ],
+    [
+      "Decreto 224 de 2023",
+      34
+    ],
+    [
+      "CONPES D.C. 32",
+      32
+    ],
+    [
+      "CONPES D.C. 36",
+      31
+    ],
+    [
+      "CONPES D.C. 33",
+      31
+    ],
+    [
+      "CONPES D.C. 25",
+      30
+    ],
+    [
+      "CONPES D.C. 7",
+      30
+    ],
+    [
+      "CONPES D.C. 22",
+      28
+    ],
+    [
+      "CONPES D.C. 29",
+      27
+    ],
+    [
+      "CONPES D.C. 4",
+      27
+    ],
+    [
+      "CONPES D.C. 34",
+      25
+    ],
+    [
+      "CONPES D.C. 23",
+      25
+    ],
+    [
+      "Decreto 193 de 2022",
+      25
+    ],
+    [
+      "CONPES D.C. 30",
+      23
+    ],
+    [
+      "CONPES D.C. 17",
+      21
+    ],
+    [
+      "CONPES D.C. 13",
+      21
+    ],
+    [
+      "CONPES D.C. 28",
+      19
+    ],
+    [
+      "CONPES D.C. 10",
+      19
+    ],
+    [
+      "CONPES D.C. 12",
+      14
+    ],
+    [
+      "CONPES D.C. 42",
+      13
+    ],
+    [
+      "Decreto 428 de 2023",
+      12
+    ]
+  ]
+}

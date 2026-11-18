@@ -1,0 +1,35 @@
+name: Error en los datos
+description: Un producto, una meta o un nombre no coincide con el plan de acción oficial.
+title: "[Datos] "
+labels: [datos]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por avisar. Para revisar el caso hace falta ubicar el producto y compararlo con el plan de acción publicado por la Secretaría Distrital de Planeación.
+  - type: input
+    id: producto
+    attributes:
+      label: Producto
+      description: El identificador (por ejemplo P1742) o el código y el nombre del producto, como aparecen en el visor.
+    validations:
+      required: true
+  - type: input
+    id: politica
+    attributes:
+      label: Política
+      description: Instrumento o nombre de la política (por ejemplo «CONPES D.C. 26»).
+    validations:
+      required: true
+  - type: textarea
+    id: diferencia
+    attributes:
+      label: Qué está mal
+      description: Qué muestra el visor y qué dice el plan de acción oficial.
+    validations:
+      required: true
+  - type: input
+    id: fuente
+    attributes:
+      label: Enlace al plan de acción
+      description: El archivo de la SDP donde se ve el dato correcto, y la hoja o fila si la conoces.

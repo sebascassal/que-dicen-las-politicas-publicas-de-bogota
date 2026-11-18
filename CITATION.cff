@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "Si usas este visor o sus datos, cítalo con estos datos."
+title: "¿Qué dicen las Políticas Públicas de Bogotá? Buscador de palabras en los planes de acción de las políticas vigentes"
+type: software
+authors:
+  - name: "Cualquier Contratista"
+version: "5.2.1"
+date-released: "2026-11-15"
+license:
+  - MIT
+  - CC-BY-4.0
+abstract: >-
+  Visor de un solo archivo HTML que relaciona palabras con los 2.764 productos vigentes de los planes de acción
+  de 47 políticas públicas distritales de Bogotá (corte al 4 de noviembre de 2026), mediante un modelo semántico
+  TF-IDF y análisis semántico latente de 128 dimensiones que corre en el navegador. Los datos y la documentación
+  se distribuyen con licencia CC BY 4.0. No es una publicación oficial de la Secretaría Distrital de Planeación.
+keywords:
+  - políticas públicas
+  - Bogotá
+  - planes de acción
+  - análisis semántico latente
+  - TF-IDF
+  - datos abiertos
+  - visualización
+references:
+  - type: data
+    title: "Planes de acción de las políticas públicas distritales"
+    authors:
+      - name: "Secretaría Distrital de Planeación de Bogotá"
+    url: "https://www.sdp.gov.co/gestion-socioeconomica/conpes-dc/politicas-publicas"
+    date-accessed: "2026-11-04"

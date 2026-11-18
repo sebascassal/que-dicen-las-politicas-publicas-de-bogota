@@ -1,0 +1,12 @@
+# Python y Node
+__pycache__/
+*.py[cod]
+.venv/
+node_modules/
+
+# Salidas locales de las pruebas
+/capturas/
+
+# Sistema
+.DS_Store
+Thumbs.db

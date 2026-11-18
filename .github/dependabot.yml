@@ -1,0 +1,11 @@
+# Mantiene al día las acciones de GitHub y las dependencias de Python de las pruebas y del entrenamiento.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+  - package-ecosystem: pip
+    directories: [/pruebas, /scripts]
+    schedule:
+      interval: monthly

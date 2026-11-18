@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Qué dicen las Políticas Públicas de Bogotá?</title>
+<meta name="description" content="¿Qué dicen las Políticas Públicas de Bogotá? Buscador de palabras en los productos vigentes de los planes de acción de las políticas públicas distritales: una nube que establece relaciones entre palabras. Herramienta no oficial: no es una publicación de la Secretaría Distrital de Planeación.">
+<meta name="theme-color" content="#f8efef">
+<meta name="referrer" content="no-referrer">
+<meta name="author" content="Cualquier Contratista">
+<style>
+/*__FONTS__*/
+/*__STYLES__*/
+</style>
+</head>
+<body>
+<a class="skip" href="#panel">Saltar a los productos relacionados</a>
+<div class="sheet">
+  <header class="mast">
+    <p class="kicker"><span class="k-long">Bogotá · Planes de acción de las políticas públicas distritales · Corte __CORTE_CORTO__</span><span class="k-short">Bogotá · Políticas públicas distritales · Corte __CORTE_CORTO__</span></p>
+    <div class="brand">
+      <h1 class="title"><span class="t-1">¿Qué dicen las Políticas Públicas de Bogotá?</span> <span class="t-2">Buscador de palabras en los planes de acción de las políticas vigentes</span></h1>
+      <p class="tagline">Una nube que establece relaciones entre palabras.</p>
+    </div>
+    <p class="stamp" role="note"><b>Herramienta desarrollada por Cualquier Contratista</b><span class="s-long">Información con corte al __CORTE__ · No es una publicación oficial de la Secretaría Distrital de Planeación</span><span class="s-short">Corte: __CORTE_CORTO__ · No es publicación oficial de la SDP</span></p>
+    <ul class="stats" id="stats" aria-label="Universo de datos"></ul>
+    <div class="side">
+      <p class="lede"><span class="l-long">Es una <b>nube que establece relaciones entre palabras</b>. Escribe hasta tres: cada una aparece rodeada de las palabras que se usan en contextos parecidos dentro de los planes de acción y, alrededor, de las políticas cuyos productos se relacionan con ella. Toca una política para acercarte.</span><span class="l-short">Escribe hasta <b>tres palabras</b> y toca una política para acercarte.</span></p>
+      <div class="search-zone">
+        <div class="search-wrap">
+          <form id="search" class="search" role="search" autocomplete="off">
+            <label for="q" class="sr-only">Palabra para buscar</label>
+            <div id="chips-box" class="chips-box"><ul id="chips" aria-label="Palabras de la búsqueda"></ul><input id="q" type="text" inputmode="search" enterkeyhint="search" spellcheck="false" autocapitalize="none" maxlength="40" placeholder="Escribe una palabra y pulsa Enter" aria-describedby="q-help" role="combobox" aria-autocomplete="list" aria-controls="sug" aria-expanded="false"></div>
+            <button type="submit" class="go">Buscar</button>
+          </form>
+          <ul id="sug" class="sug" role="listbox" aria-label="Sugerencias" hidden></ul>
+        </div>
+        <p id="q-help" class="hint" aria-live="polite"></p>
+        <div class="examples" id="examples"><span>Prueba:</span></div>
+        <div class="trail" id="trail" role="group" aria-label="Búsquedas recientes" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="sky-col" aria-labelledby="h-sky">
+      <div class="sec-head"><span class="num" aria-hidden="true">01</span><h2 id="h-sky">La nube de relaciones</h2></div>
+      <p class="fig" id="sky-sub"></p>
+      <div id="sky-wrap" class="sky-wrap">
+        <canvas id="sky" tabindex="0" role="img" aria-label="Nube de relaciones entre palabras"></canvas>
+        <p id="sky-live" class="sr-only" aria-live="polite"></p>
+        <div id="sky-empty" class="sky-empty" hidden><b>Sin palabras</b><span>Escribe una palabra para encender la nube.</span></div>
+        <div id="focusbar" class="focusbar" hidden></div>
+        <div id="tip" class="tip" hidden></div>
+        <div class="zoomctl">
+          <button type="button" id="z-in" aria-label="Acercar" title="Acercar">+</button>
+          <button type="button" id="z-out" aria-label="Alejar" title="Alejar">−</button>
+          <button type="button" id="z-home" aria-label="Ver toda la nube" title="Ver toda la nube"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 6V1h5M10 1h5v5M15 10v5h-5M6 15H1v-5" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+        </div>
+      </div>
+      <div id="profile" class="profile" aria-live="polite" hidden></div>
+      <p class="cloud-note"><b>Nube de relaciones, no mapa.</b> La cercanía entre palabras y políticas indica relación de significado en los textos de los planes de acción; el plano del fondo es solo un recurso gráfico.</p>
+      <div class="legend" id="legend"><ul id="legend-list" aria-label="Familias de sectores: pulsa una para resaltarla"></ul></div>
+      <ul class="key" aria-label="Cómo leer la nube">
+        <li><svg width="16" height="22" viewBox="0 0 16 22" aria-hidden="true"><path d="M8 21C6 15 1.5 12.5 1.5 8a6.5 6.5 0 0 1 13 0C14.5 12.5 10 15 8 21Z" fill="#111"/><circle cx="8" cy="8" r="2.8" fill="#f5e33b"/></svg>Palabra buscada</li>
+        <li><svg width="24" height="18" viewBox="0 0 24 18" aria-hidden="true"><circle cx="9" cy="9" r="8" fill="#dcd3d3" stroke="#111" stroke-width="1"/><circle cx="6.5" cy="8" r="1.6" fill="#111"/><circle cx="11" cy="10.5" r="2.6" fill="#111"/><circle cx="19" cy="5" r="4.5" fill="#111"/><text x="19" y="7.2" font-size="6.5" font-family="Arial" font-weight="700" fill="#fff" text-anchor="middle">1</text></svg>Política: sus productos, numerada</li>
+        <li><svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true"><circle cx="4" cy="7" r="2" fill="#111"/><circle cx="14" cy="7" r="4.5" fill="#111"/></svg>Producto: más grande, más relación</li>
+        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="#f5e33b" stroke="#111" stroke-width="1"/><circle cx="8" cy="8" r="3.2" fill="#111"/></svg>Conecta dos o más palabras</li>
+        <li><svg width="30" height="14" viewBox="0 0 30 14" aria-hidden="true"><path d="M2 5h26" stroke="#111" stroke-width="3"/><path d="M2 11h26" stroke="#111" stroke-width="1.2" stroke-dasharray="2 2"/></svg>Vecina subrayada: unidad de varias palabras; tócala para sumarla</li>
+      </ul>
+      <div class="bandkey" id="bandkey"></div>
+      <div id="gindex-wrap" class="gindex-wrap" hidden>
+        <h3 class="mini">Políticas en la figura <small>numeradas por cantidad de productos relacionados; toca una para acercarte</small></h3>
+        <ol id="gindex" class="gindex"></ol>
+        <button type="button" id="gindex-more" class="gi-more" hidden></button>
+      </div>
+      <div id="nb-wrap" class="gindex-wrap nb-wrap" hidden>
+        <h3 class="mini">Palabras vecinas <small>las más cercanas a cada palabra buscada, con su cercanía; toca una para sumarla a la búsqueda</small></h3>
+        <ul id="nb-list" class="nb-list"></ul>
+      </div>
+      <p class="sky-help" id="sky-help">Toca o haz clic en una política para acercarte y ver sus productos. Para acercar también puedes pellizcar o usar Ctrl + rueda; con el teclado, las flechas recorren los productos en orden.</p>
+      <section class="method-sec" aria-labelledby="h-met">
+        <div class="sec-head"><span class="num" aria-hidden="true">?</span><h2 id="h-met">Metodología</h2></div>
+        <p class="method-sub">Cómo se construye la nube de relaciones entre palabras.</p>
+        <ol class="steps">
+          <li class="step"><span class="sn" aria-hidden="true">01</span><h3>Los textos</h3><p>Planes de acción de las políticas públicas distritales que publica la Secretaría Distrital de Planeación, con corte al __CORTE__: <b>__N_PRODUCTOS__</b> productos vigentes de <b>__N_POLITICAS__</b> políticas.</p></li>
+          <li class="step"><span class="sn" aria-hidden="true">02</span><h3>El modelo</h3><p>Cada producto se representa con las palabras de su nombre, su indicador y su resultado. Con TF-IDF y análisis semántico latente (LSA, 128 dimensiones), las palabras que suelen aparecer en los mismos productos quedan cerca.</p></li>
+          <li class="step"><span class="sn" aria-hidden="true">03</span><h3>Las relaciones</h3><p>La búsqueda se compara con cada producto mediante la similitud del coseno: relación fuerte desde 0,30 y media entre 0,18 y 0,30. Las palabras vecinas son las más cercanas a cada palabra buscada.</p></li>
+          <li class="step"><span class="sn" aria-hidden="true">04</span><h3>La nube</h3><p>Las palabras buscadas van al centro con sus vecinas; cada política se ubica del lado de la palabra con la que más se relaciona. Una banda las une: su grosor y su color marcan la intensidad de la articulación temática, que suma la relación de sus productos con esa palabra; crece con el tamaño del plan y no mide coordinación entre entidades. Todo se calcula en el navegador.</p></li>
+        </ol>
+        <p class="method-note"><b>Antes de citar estos resultados:</b> el visor mide cercanía temática entre textos. No mide coordinación entre entidades, duplicidad de metas, presupuesto, avance ni cumplimiento, y que un tema no aparezca no prueba que no se trabaje. Verifica cada producto en su plan de acción oficial. <button type="button" id="btn-metodo-3">Fuente, exclusiones y validación</button></p>
+      </section>
+    </section>
+
+    <section id="panel" class="panel" aria-labelledby="h-res" tabindex="-1">
+      <div class="sec-head"><span class="num" aria-hidden="true">02</span><h2 id="h-res">Productos relacionados</h2></div>
+      <p id="summary" class="summary" aria-live="polite"></p>
+      <div class="filters">
+        <label title="Sector administrativo líder de la política">Sector líder<select id="f-sector"></select></label>
+        <label>Política<select id="f-pol"></select></label>
+      </div>
+      <details id="more-filters" class="mf">
+        <summary>Más filtros y orden <span id="mf-n" class="mf-n" hidden></span></summary>
+        <div class="filters">
+          <label>Entidad responsable<select id="f-ent"></select></label>
+          <label>Enfoque<select id="f-enf"></select></label>
+          <label>Relación<select id="f-rel"></select></label>
+          <label>Orden<select id="f-sort"></select></label>
+        </div>
+        <div class="toggles">
+          <label><input type="checkbox" id="f-lit"> Solo con mención literal<span id="f-lit-n"></span></label>
+          <label id="f-con-l"><input type="checkbox" id="f-con"> Solo los que conectan palabras<span id="f-con-n"></span></label>
+        </div>
+      </details>
+      <div id="facets" class="facets"></div>
+      <div id="active-filters" class="active-filters"></div>
+      <div class="tools"><button type="button" id="copy">Copiar tabla</button><span id="copy-msg" aria-live="polite"></span></div>
+      <ol id="results" class="results"></ol>
+      <button type="button" id="more" class="more" hidden></button>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span><b>Datos:</b> planes de acción publicados por la Secretaría Distrital de Planeación (<a href="https://www.sdp.gov.co/gestion-socioeconomica/conpes-dc/politicas-publicas" target="_blank" rel="noopener noreferrer">sdp.gov.co</a>), corte __CORTE__.</span>
+    <span>El modelo semántico corre en tu navegador: el visor no envía datos a ningún servidor.</span>
+    <span><b>Herramienta desarrollada por Cualquier Contratista</b> a partir de información pública con corte al __CORTE__; no es una publicación oficial de la Secretaría Distrital de Planeación. Versión __VERSION__.</span>
+    <button type="button" id="btn-metodo-2">Fuente y método</button>
+  </footer>
+</div>
+
+<dialog id="metodo" class="metodo" aria-labelledby="m-title">
+  <div class="m-head"><h2 id="m-title">Fuente y método</h2><button type="button" id="m-close" aria-label="Cerrar">×</button></div>
+  <div id="m-body"></div>
+</dialog>
+
+<script id="data" type="application/json">__DATA_JSON__</script>
+<script>
+/*__ENGINE_JS__*/
+</script>
+<script>
+/*__APP_JS__*/
+</script>
+</body>
+</html>

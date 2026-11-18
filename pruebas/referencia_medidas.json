@@ -1,0 +1,37 @@
+{
+  "nota": "Medidas de referencia en Chrome (pruebas/medir_chrome.py). pruebas/verificar.py exige que la nube empiece a la misma altura o más arriba (con 2 px de tolerancia), que mantenga su alto y que no haya desborde horizontal.",
+  "tamanos": {
+    "1920x1080": {
+      "nube_inicio_px": 486,
+      "nube_alto_px": 900
+    },
+    "1440x900": {
+      "nube_inicio_px": 521,
+      "nube_alto_px": 750
+    },
+    "1280x800": {
+      "nube_inicio_px": 577,
+      "nube_alto_px": 650
+    },
+    "1024x768": {
+      "nube_inicio_px": 545,
+      "nube_alto_px": 618
+    },
+    "844x390": {
+      "nube_inicio_px": 435,
+      "nube_alto_px": 320
+    },
+    "390x844": {
+      "nube_inicio_px": 478,
+      "nube_alto_px": 591
+    },
+    "375x667": {
+      "nube_inicio_px": 489,
+      "nube_alto_px": 467
+    },
+    "320x568": {
+      "nube_inicio_px": 531,
+      "nube_alto_px": 398
+    }
+  }
+}

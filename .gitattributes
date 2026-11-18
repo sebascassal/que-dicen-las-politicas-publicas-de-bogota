@@ -1,0 +1,10 @@
+# Texto con fin de línea LF, salvo los CSV de datos, que se guardan tal cual (UTF-8 con BOM y CRLF, para Excel).
+* text=auto eol=lf
+*.csv -text
+
+# Archivos generados: no cuentan en las estadísticas de lenguajes y no se muestran como diferencia línea a línea.
+dist/index.html linguist-generated=true -diff
+datos/modelo/*.json linguist-generated=true -diff
+src/fuentes.css linguist-generated=true -diff
+
+*.png binary

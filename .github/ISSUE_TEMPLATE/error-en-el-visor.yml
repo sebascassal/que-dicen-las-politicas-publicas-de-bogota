@@ -1,0 +1,29 @@
+name: Algo no funciona en el visor
+description: Un error, algo que se ve mal o una función que no responde.
+title: "[Visor] "
+labels: [error]
+body:
+  - type: textarea
+    id: que-paso
+    attributes:
+      label: Qué pasó
+      description: Qué hiciste, qué esperabas y qué ocurrió.
+    validations:
+      required: true
+  - type: input
+    id: busqueda
+    attributes:
+      label: Búsqueda
+      description: Copia la dirección de la página (incluye la búsqueda, por ejemplo …#q-mujeres-rurales).
+  - type: input
+    id: navegador
+    attributes:
+      label: Navegador y dispositivo
+      description: Por ejemplo «Safari en iPhone 13» o «Chrome 131 en Windows 11».
+    validations:
+      required: true
+  - type: textarea
+    id: captura
+    attributes:
+      label: Captura de pantalla
+      description: Si puedes, arrastra aquí una imagen.

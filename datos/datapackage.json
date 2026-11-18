@@ -1,0 +1,275 @@
+{
+  "profile": "data-package",
+  "name": "planes-de-accion-politicas-publicas-bogota",
+  "title": "Productos vigentes de los planes de acción de las políticas públicas distritales de Bogotá",
+  "description": "Compilación estructurada de los 2.764 productos vigentes de los planes de acción de 47 políticas públicas distritales publicados por la Secretaría Distrital de Planeación (corte al 4 de noviembre de 2026), con el modelo semántico del visor «¿Qué dicen las Políticas Públicas de Bogotá?». No es una publicación oficial de la Secretaría Distrital de Planeación.",
+  "version": "5.2.1",
+  "created": "2026-11-13T00:00:00Z",
+  "keywords": [
+    "políticas públicas",
+    "Bogotá",
+    "planes de acción",
+    "datos abiertos"
+  ],
+  "licenses": [
+    {
+      "name": "CC-BY-4.0",
+      "path": "https://creativecommons.org/licenses/by/4.0/",
+      "title": "Creative Commons Atribución 4.0 Internacional"
+    }
+  ],
+  "sources": [
+    {
+      "title": "Secretaría Distrital de Planeación de Bogotá: CONPES D.C. › Políticas públicas",
+      "path": "https://www.sdp.gov.co/gestion-socioeconomica/conpes-dc/politicas-publicas"
+    }
+  ],
+  "contributors": [
+    {
+      "title": "Cualquier Contratista",
+      "role": "author"
+    }
+  ],
+  "resources": [
+    {
+      "name": "productos-vigentes",
+      "path": "fuente/productos_vigentes.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "bytes": 2825224,
+      "hash": "sha256:14a122abf1c750891106b6528c4dd922cc03eae7ba3eb3a79f66dda48461aae7",
+      "dialect": {
+        "delimiter": ",",
+        "lineTerminator": "\r\n",
+        "header": true
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Identificador interno, secuencial en este corte (P0000…); no es un código oficial",
+            "constraints": {
+              "required": true,
+              "unique": true,
+              "pattern": "P\\d{4}"
+            }
+          },
+          {
+            "name": "instrumento",
+            "type": "string",
+            "description": "Acto que adopta la política (CONPES D.C. o decreto)",
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "politica",
+            "type": "string",
+            "description": "Nombre de la política, como en el plan"
+          },
+          {
+            "name": "sector",
+            "type": "string",
+            "description": "Sector administrativo líder de la política"
+          },
+          {
+            "name": "codigo",
+            "type": "string",
+            "description": "Código del producto en el plan"
+          },
+          {
+            "name": "producto",
+            "type": "string",
+            "description": "Nombre del producto esperado (los textos muy largos llegaron recortados en la extracción)"
+          },
+          {
+            "name": "indicador",
+            "type": "string",
+            "description": "Nombre del indicador de producto (recortado a 250 caracteres en la extracción)"
+          },
+          {
+            "name": "resultado",
+            "type": "string",
+            "description": "Resultado al que aporta (recortado a 240 caracteres en la extracción)"
+          },
+          {
+            "name": "objetivo",
+            "type": "string",
+            "description": "Objetivo específico de la política (recortado a 240 caracteres en la extracción)"
+          },
+          {
+            "name": "entidad",
+            "type": "string",
+            "description": "Entidad responsable, como viene escrita en el plan (ver catalogos/entidades.csv)"
+          },
+          {
+            "name": "dependencia",
+            "type": "string",
+            "description": "Dependencia responsable (recortada a 90 caracteres en la extracción)"
+          },
+          {
+            "name": "meta_final",
+            "type": "string",
+            "description": "Meta final tal como está guardada en el archivo; en indicadores de porcentaje suele venir como proporción (1 = 100 %)"
+          },
+          {
+            "name": "enfoque",
+            "type": "string",
+            "description": "Enfoques, en texto libre"
+          },
+          {
+            "name": "vigencia",
+            "type": "string",
+            "description": "Siempre «Vigente» en este archivo"
+          },
+          {
+            "name": "plan_accion_url",
+            "type": "string",
+            "description": "Enlace al Excel del plan de acción en sdp.gov.co",
+            "format": "uri"
+          },
+          {
+            "name": "documento_url",
+            "type": "string",
+            "description": "Enlace al documento de la política"
+          }
+        ],
+        "primaryKey": "id",
+        "foreignKeys": [
+          {
+            "fields": "instrumento",
+            "reference": {
+              "resource": "politicas-vigentes",
+              "fields": "instrumento"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "politicas-vigentes",
+      "path": "fuente/politicas_vigentes.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "bytes": 13953,
+      "hash": "sha256:cc0e57c62582af4e19c9ef96716bb0450b74890062761e9318c06aebea00e4b7",
+      "dialect": {
+        "delimiter": ",",
+        "lineTerminator": "\r\n",
+        "header": true
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "instrumento",
+            "type": "string",
+            "description": "Acto que adopta la política",
+            "constraints": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "name": "politica",
+            "type": "string",
+            "description": "Nombre completo"
+          },
+          {
+            "name": "sector",
+            "type": "string",
+            "description": "Sector administrativo líder"
+          },
+          {
+            "name": "productos_vigentes",
+            "type": "integer",
+            "description": "Número de productos vigentes"
+          },
+          {
+            "name": "plan_accion_url",
+            "type": "string",
+            "description": "Enlace al Excel del plan de acción",
+            "format": "uri"
+          },
+          {
+            "name": "documento_url",
+            "type": "string",
+            "description": "Enlace al documento de la política"
+          }
+        ],
+        "primaryKey": "instrumento"
+      }
+    },
+    {
+      "name": "entidades",
+      "path": "catalogos/entidades.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "bytes": 7835,
+      "hash": "sha256:38033fd4c68fd8244bd439e8983dde39b96a3a73e8d2a5db011ffb4639b076c8",
+      "dialect": {
+        "delimiter": ",",
+        "lineTerminator": "\r\n",
+        "header": true
+      },
+      "schema": {
+        "fields": [
+          {
+            "name": "entidad_en_el_plan",
+            "type": "string",
+            "description": "Nombre de la entidad como viene escrito en el plan (vacío si el plan no la indica)"
+          },
+          {
+            "name": "entidad",
+            "type": "string",
+            "description": "Nombre normalizado"
+          },
+          {
+            "name": "sigla",
+            "type": "string",
+            "description": "Sigla de uso común, si la hay"
+          },
+          {
+            "name": "productos",
+            "type": "integer",
+            "description": "Productos vigentes con esa forma de escritura"
+          }
+        ]
+      },
+      "description": "Catálogo que agrupa las formas de escribir cada entidad responsable en un nombre normalizado. La fila con entidad_en_el_plan vacía agrupa los productos cuyo plan no indica entidad."
+    },
+    {
+      "name": "verificacion-fuente",
+      "path": "fuente/verificacion_fuente.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "encoding": "utf-8",
+      "description": "Registro de lo que se leyó en la fuente y de lo que quedó por fuera",
+      "bytes": 4579,
+      "hash": "sha256:c9c04c5d8aa3c30613c42da3829cbd30703e7b7b25170af76eacfc5c449f48dc"
+    },
+    {
+      "name": "modelo-semantico",
+      "path": "modelo/modelo_semantico.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "encoding": "utf-8",
+      "description": "Modelo TF-IDF + LSA (k = 128) que usa el visor; ver docs/metodologia.md",
+      "bytes": 1371728,
+      "hash": "sha256:eb448a446c51a86458845994457da9a9b28843e4a9c2172b88f79e571756e390"
+    },
+    {
+      "name": "consultas-control",
+      "path": "pruebas/consultas_control.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "encoding": "utf-8",
+      "description": "Consultas de control (pruebas de regresión) del modelo",
+      "bytes": 2548,
+      "hash": "sha256:958a622938023ce2d6b4877a07a3c28abd8f6b2efb45de18263dfe18d2f49c6e"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+# Verifica cada cambio. Bloquean: la construcción (al día y determinista), el modelo, las unidades, las cifras citadas
+# y los recorridos funcionales en Chrome. No bloquean: las medidas en píxeles, que dependen de la versión de Chrome.
+name: Verificar
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verificar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rapido:
+    name: Construcción, modelo y unidades (Python ${{ matrix.python }}, Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { python: '3.9', node: 18 }     # versiones mínimas que promete el README
+          - { python: '3.12', node: 24 }
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Verificación sin navegador
+        run: python3 pruebas/verificar.py --rapido
+
+  navegador:
+    name: Recorridos y funciones en Chrome
+    needs: rapido
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Instalar Playwright (usa el Chrome del ejecutor)
+        run: pip install -r pruebas/requirements.txt
+      - name: Recorridos y funciones
+        run: python3 pruebas/verificar.py --solo-navegador --capturas capturas
+      - name: Guardar capturas
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: capturas-funcionales
+          path: capturas/
+          if-no-files-found: ignore
+
+  medidas:
+    name: Medidas en píxeles (informativo)
+    needs: rapido
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # una diferencia aquí se revisa a mano: puede venir de la versión de Chrome del ejecutor
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Instalar Playwright (usa el Chrome del ejecutor)
+        run: pip install -r pruebas/requirements.txt
+      - name: Medidas en 8 tamaños de pantalla
+        run: python3 pruebas/verificar.py --solo-medidas

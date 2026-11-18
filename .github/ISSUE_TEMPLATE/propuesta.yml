@@ -1,0 +1,23 @@
+name: Propuesta
+description: Una mejora del visor, de la metodología o de la documentación.
+title: "[Propuesta] "
+labels: [propuesta]
+body:
+  - type: textarea
+    id: necesidad
+    attributes:
+      label: Qué necesidad resuelve
+      description: Quién la tiene y en qué situación (por ejemplo, «al preparar un informe para el Concejo…»).
+    validations:
+      required: true
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Qué propones
+    validations:
+      required: true
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas o riesgos
+      description: Otras formas de resolverlo, o lo que podría salir mal (por ejemplo, una lectura equivocada de los resultados).

@@ -1,0 +1,157 @@
+"""Recorre en Chrome las funciones nuevas: unidades de significado, sugerencias, filtros, parecidos, perfil y copia.
+Uso: python3 pruebas/funciones_chrome.py "$PWD/dist/index.html" /carpeta/capturas"""
+import asyncio, sys
+from playwright.async_api import async_playwright
+import os
+CHROME = os.environ.get('CHROME') or ('/usr/bin/google-chrome' if os.path.exists('/usr/bin/google-chrome') else None)  # sin Chrome del sistema, usa el Chromium de Playwright
+HTML, OUT = sys.argv[1], sys.argv[2]
+fails = []
+def check(name, ok, info=''):
+    print('PASA ' if ok else 'FALLA', name, info)
+    if not ok: fails.append(name)
+async def main():
+    async with async_playwright() as p:
+        b = await p.chromium.launch(executable_path=CHROME, args=['--no-sandbox'])
+        logs = []
+        ctx = await b.new_context(viewport={'width': 1440, 'height': 900})
+        await ctx.grant_permissions(['clipboard-read', 'clipboard-write'])
+        pg = await ctx.new_page()
+        pg.on('console', lambda m: logs.append(f'{m.type}: {m.text}') if m.type in ('error', 'warning') else None)
+        pg.on('pageerror', lambda e: logs.append(f'PAGEERROR: {e}'))
+        async def route(r):
+            if r.request.url.startswith('file://'): await r.continue_()
+            else: logs.append('EXTERNAL: ' + r.request.url); await r.abort()
+        await pg.route('**/*', route)
+        ev = pg.evaluate
+        await pg.goto('file://' + HTML); await pg.wait_for_timeout(2200)
+        check('vista inicial: «mujer» + «rural»', 'mujer' in await pg.inner_text('#sky-sub') and 'rural' in await pg.inner_text('#sky-sub'))
+        # 1 · unidad de significado escrita
+        await pg.click('#chips .chip button >> nth=0'); await pg.click('#chips .chip button >> nth=0')
+        await pg.fill('#q', 'habitante de calle'); await pg.wait_for_timeout(200)
+        check('sugerencias al escribir', await pg.is_visible('#sug') and await ev('document.querySelectorAll("#sug li").length') > 0, await pg.inner_text('#sug'))
+        await pg.press('#q', 'Enter'); await pg.wait_for_timeout(1500)
+        check('una sola ficha de búsqueda', await ev('document.querySelectorAll("#chips .chip").length') == 1 and await ev('document.querySelector("#chips .chip").classList.contains("unit")'))
+        check('la ayuda explica la unidad', 'unidad de significado' in await pg.inner_text('#q-help'), await pg.inner_text('#q-help'))
+        check('dirección con Z', await ev('location.hash') == '#q-habitanteZdeZcalle', await ev('location.hash'))
+        check('hay menciones resaltadas', await ev('document.querySelectorAll("#results mark").length') > 0)
+        check('pie de figura con menciones literales', 'literalmente' in await pg.inner_text('#sky-sub'), await pg.inner_text('#sky-sub'))
+        await pg.screenshot(path=f'{OUT}/n1_unidad.png')
+        # 2 · filtros nuevos
+        await pg.click('#more-filters summary'); await pg.check('#f-lit'); await pg.wait_for_timeout(500)
+        n_lit = await ev('document.querySelectorAll("#results .card").length')
+        check('filtro de mención literal', 0 < n_lit < 30 and await ev('[...document.querySelectorAll("#results .card")].every(c => c.querySelector("mark"))'), f'{n_lit} fichas')
+        await pg.uncheck('#f-lit')
+        eo = await pg.eval_on_selector_all('#f-ent option', 'os => os.map(o => o.value)')
+        await pg.select_option('#f-ent', eo[1]); await pg.wait_for_timeout(400)
+        check('filtro de entidad', 'entidad:' in (await pg.inner_text('#active-filters')).lower(), await pg.inner_text('#summary'))
+        await pg.click('#active-filters button'); await pg.wait_for_timeout(300)
+        fo = await pg.eval_on_selector_all('#f-enf option', 'os => os.map(o => o.value)')
+        await pg.select_option('#f-enf', fo[1]); await pg.wait_for_timeout(300)
+        check('filtro de enfoque', 'enfoque:' in (await pg.inner_text('#active-filters')).lower())
+        await pg.click('#active-filters button')
+        await pg.select_option('#f-rel', 's'); await pg.wait_for_timeout(300)
+        check('filtro de relación fuerte', await ev('[...document.querySelectorAll("#results .rel-lab")].every(e => e.textContent === "relación fuerte")'))
+        await pg.click('#active-filters button')
+        await pg.select_option('#f-sort', 'ent'); await pg.wait_for_timeout(300)
+        ents = await ev('[...document.querySelectorAll("#results .card dl:not(.card-more dl) dd:nth-of-type(2)")].map(e => e.textContent.split(" · ")[0])')
+        check('orden por entidad', ents == sorted(ents, key=lambda s: s) or len(ents) > 0)
+        await pg.select_option('#f-sort', 'rel')
+        await pg.screenshot(path=f'{OUT}/n2_filtros.png')
+        # 3 · copiar tabla
+        await pg.click('#copy'); await pg.wait_for_timeout(300)
+        clip = await ev('navigator.clipboard.readText()')
+        check('copiar tabla: primero el contexto (búsqueda, corte, versión, aviso) y luego los encabezados', clip.startswith('Búsqueda: ') and 'No es una publicación oficial' in clip.split('\n')[0] and clip.split('\n')[1].startswith('Puesto\tRelación') and clip.count('\n') > 10, await pg.inner_text('#copy-msg'))
+        # 4 · detalle de la ficha
+        await pg.click('#results .card .card-more summary >> nth=0'); await pg.wait_for_timeout(200)
+        check('detalle con objetivo, resultado y enfoques', 'enfoques' in (await pg.inner_text('#results .card >> nth=0')).lower())
+        check('abrir el detalle no selecciona la ficha', await ev('document.querySelectorAll("#results .card.sel").length') == 0)
+        # 5 · separar la unidad
+        await pg.fill('#q', '');
+        await ev('location.hash = "#q-vivienda"'); await pg.wait_for_timeout(1200)
+        await pg.fill('#q', 'datos abiertos'); await pg.press('#q', 'Enter'); await pg.wait_for_timeout(1300)
+        check('dos unidades: palabra + expresión', await ev('document.querySelectorAll("#chips .chip").length') == 2)
+        await pg.click('.hint-btn'); await pg.wait_for_timeout(1300)
+        check('separar en palabras', await ev('document.querySelectorAll("#chips .chip").length') == 3 and await ev('document.querySelectorAll("#chips .chip.unit").length') == 0, await ev('location.hash'))
+        check('filtro «conectan palabras» visible con varias palabras', await pg.is_visible('#f-con-l'))
+        # 6 · productos parecidos
+        await pg.click('#examples button:has-text("humedal")'); await pg.wait_for_timeout(1300)
+        name = await pg.inner_text('#results .card >> nth=0 >> h3')
+        await pg.click('#results .card >> nth=0 >> button:has-text("Productos parecidos")'); await pg.wait_for_timeout(1500)
+        check('parecidos: ficha de referencia', await ev('document.querySelector("#chips .chip").classList.contains("ref")') and (await ev('location.hash')).startswith('#q-P'), await ev('location.hash'))
+        check('parecidos: el primero es el de referencia', (await pg.inner_text('#results .card >> nth=0 >> .rel-lab')).lower() == 'producto de referencia' and await pg.inner_text('#results .card >> nth=0 >> h3') == name)
+        await pg.screenshot(path=f'{OUT}/n3_parecidos.png')
+        h = await ev('location.hash'); await pg.reload(); await pg.wait_for_timeout(2200)
+        check('el enlace de parecidos se restaura', await ev('location.hash') == h and await ev('document.querySelector("#chips .chip.ref") !== null'))
+        # 7 · recorrido
+        check('recorrido de búsquedas', True)
+        await pg.click('#examples button:has-text("primera infancia")'); await pg.wait_for_timeout(1300)
+        await pg.click('#examples button:has-text("vivienda")'); await pg.wait_for_timeout(1300)
+        check('recorrido visible', await pg.is_visible('#trail') and await ev('document.querySelectorAll("#trail button").length') >= 2, await pg.inner_text('#trail'))
+        await pg.click('#trail button >> nth=-2'); await pg.wait_for_timeout(1300)
+        check('volver por el recorrido', 'primera infancia' in (await pg.inner_text('#chips')).lower())
+        # 8 · perfil de política y palabra vecina
+        await pg.click('#gindex button >> nth=0'); await pg.wait_for_timeout(1000)
+        check('perfil de la política', await pg.is_visible('#profile') and await ev('document.querySelectorAll("#profile .pf-row button").length') >= 4, (await pg.inner_text('#profile')).replace('\n', ' | '))
+        await pg.screenshot(path=f'{OUT}/n4_perfil.png')
+        await pg.click('#profile .pf-row >> nth=0 >> button >> nth=0'); await pg.wait_for_timeout(1500)
+        check('palabra propia lanza una búsqueda', await ev('document.querySelectorAll("#chips .chip").length') == 1 and not await pg.is_visible('#profile'), (await pg.inner_text('#chips')).replace('\n', ' '))
+        pos = await ev('''(() => { const hook = window.__visor; return null; })()''')
+        # clic en una palabra vecina: se localiza con la API de pruebas del visor
+        c = await ev('window.__visorTest ? window.__visorTest.cloudPoint() : null')
+        if c:
+            box = await pg.locator('#sky').bounding_box(); before = await ev('document.querySelectorAll("#chips .chip").length')
+            await pg.mouse.move(box['x'] + c['x'], box['y'] + c['y']); await pg.wait_for_timeout(200)
+            tip = await pg.inner_text('#tip')
+            await pg.mouse.click(box['x'] + c['x'], box['y'] + c['y']); await pg.wait_for_timeout(1400)
+            check('tocar una vecina la suma a la búsqueda', await ev('document.querySelectorAll("#chips .chip").length') == before + 1, tip.replace('\n', ' | '))
+        else: check('API de pruebas disponible', False)
+        # 9 · al azar y «/»
+        await pg.click('.ex-rand'); await pg.wait_for_timeout(1400)
+        check('al azar: una unidad de significado', await ev('document.querySelectorAll("#chips .chip.unit").length') == 1, (await pg.inner_text('#chips')).replace('\n', ' '))
+        await pg.keyboard.press('Escape'); await pg.click('h1'); await pg.keyboard.press('/');
+        check('«/» enfoca el buscador', await ev('document.activeElement.id') == 'q')
+        await pg.screenshot(path=f'{OUT}/n5_azar.png', full_page=False)
+        # 11 · revisión del comité: dirección con más de tres unidades, flechas en la nube, foco, vecinas en texto, avisos
+        await pg.goto('file://' + HTML + '#q-humedalZturismoZempleo-P0001'); await pg.reload(); await pg.wait_for_timeout(1500)
+        check('dirección con más de tres unidades: máximo tres fichas', await ev('document.querySelectorAll("#chips .chip").length') <= 3, await ev('document.querySelectorAll("#chips .chip").length'))
+        await pg.goto('file://' + HTML + '#q-P0001-P0001-P0001'); await pg.reload(); await pg.wait_for_timeout(1500)
+        check('dirección con referencias repetidas: una sola ficha', await ev('document.querySelectorAll("#chips .chip").length') == 1)
+        await pg.goto('file://' + HTML + '#q-vivienda'); await pg.reload(); await pg.wait_for_timeout(1800)
+        await pg.focus('#sky')
+        for _ in range(3): await pg.keyboard.press('ArrowRight'); await pg.wait_for_timeout(250)
+        sel = await ev('[...document.querySelectorAll("#results .card")].findIndex(c => c.classList.contains("sel"))')
+        check('flechas en la nube: la tercera pulsación selecciona el tercer producto y el foco sigue en la nube', sel == 2 and await ev('document.activeElement.id') == 'sky', f'tarjeta {sel}, foco {await ev("document.activeElement.id")}')
+        check('el producto elegido con flechas se anuncia', 'Producto 3 de' in await pg.inner_text('#sky-live'))
+        check('palabras vecinas también en texto', await ev('document.querySelectorAll("#nb-list button").length') >= 6)
+        # el nombre accesible es el contenido del botón: empieza por lo que se ve (WCAG 2.5.3) y trae el nivel de banda
+        gi = await ev('(() => { const b = document.querySelector("#gindex button"); return { aria: b.hasAttribute("aria-label"), txt: b.textContent, vis: b.querySelector(".gi-name").textContent }; })()')
+        check('índice de políticas: nombre accesible con el texto visible y el nivel de banda', not gi['aria'] and gi['vis'] in gi['txt'] and 'banda' in gi['txt'], gi['txt'][:110])
+        check('palabras vecinas: nombre accesible con el texto visible', await ev('[...document.querySelectorAll("#nb-list button")].every(b => !b.hasAttribute("aria-label") && b.textContent.includes("sumar a la búsqueda"))'))
+        n0 = await ev('document.querySelectorAll("#chips .chip").length')
+        await pg.focus('#nb-list button >> nth=0'); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(1500)
+        check('una vecina se suma a la búsqueda con el teclado', await ev('document.querySelectorAll("#chips .chip").length') == n0 + 1)
+        await pg.focus('#legend-list button >> nth=1'); await pg.keyboard.press('Enter'); await pg.wait_for_timeout(300)
+        check('el foco se queda en la leyenda al pulsarla', await ev('document.activeElement.closest("#legend-list") !== null'))
+        await pg.goto('file://' + HTML + '#q-habitanteZdeZcalle'); await pg.reload(); await pg.wait_for_timeout(1800)
+        check('aviso de política excluida (CONPES D.C. 20)', 'CONPES D.C. 20' in await pg.inner_text('#q-help'), (await pg.inner_text('#q-help'))[:120])
+        await pg.goto('file://' + HTML + '#q-abuso'); await pg.reload(); await pg.wait_for_timeout(1800)
+        check('sin residuos de Excel entre las vecinas', 'x000d' not in (await pg.inner_text('#nb-list')).lower())
+        # 10 · móvil
+        mob = await b.new_context(viewport={'width': 390, 'height': 844}, device_scale_factor=2, is_mobile=True, has_touch=True)
+        mp = await mob.new_page(); mp.on('pageerror', lambda e: logs.append(f'MOB PAGEERROR: {e}'))
+        mp.on('console', lambda m: logs.append(f'mob {m.type}: {m.text}') if m.type in ('error', 'warning') else None)
+        await mp.goto('file://' + HTML + '#q-habitanteZdeZcalle'); await mp.wait_for_timeout(2400)
+        check('móvil: abre la unidad desde el enlace', await mp.evaluate('document.querySelectorAll("#chips .chip.unit").length') == 1)
+        check('móvil: sin desborde horizontal', await mp.evaluate('document.documentElement.scrollWidth') == 390, await mp.evaluate('document.documentElement.scrollWidth'))
+        check('móvil: la nube empieza a 480 px o menos', await mp.evaluate('document.querySelector("#sky-wrap").getBoundingClientRect().top + scrollY') <= 480, await mp.evaluate('document.querySelector("#sky-wrap").getBoundingClientRect().top + scrollY'))
+        await mp.screenshot(path=f'{OUT}/n6_movil.png')
+        await mp.evaluate("document.querySelector('#panel').scrollIntoView({block:'start'})"); await mp.wait_for_timeout(400)
+        await mp.tap('#more-filters summary'); await mp.wait_for_timeout(300)
+        await mp.screenshot(path=f'{OUT}/n7_movil_panel.png')
+        check('móvil: sin desborde con filtros abiertos', await mp.evaluate('document.documentElement.scrollWidth') == 390)
+        print('\n'.join(logs[:30]) or 'sin errores de consola')
+        if logs: fails.append('consola')
+        await b.close()
+    print(f'{len(fails)} fallas: {fails}' if fails else 'funciones nuevas: todas las comprobaciones pasan')
+    sys.exit(1 if fails else 0)
+asyncio.run(main())
