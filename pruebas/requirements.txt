@@ -1,2 +1,2 @@
 playwright==1.65.2
-pillow>=10
+pillow>=13.0.0
