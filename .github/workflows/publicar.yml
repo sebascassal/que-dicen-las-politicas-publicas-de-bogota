@@ -39,7 +39,7 @@ jobs:
         with:
           # el mismo cambio que pasó la verificación
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Comprobar que dist/index.html está al día con datos/ y src/
