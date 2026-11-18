@@ -5,6 +5,8 @@ type: software
 authors:
   - name: "Cualquier Contratista"
 version: "5.2.1"
+"homepage": "https://github.com/USUARIO/que-dicen-las-politicas-publicas-de-bogota"
+repository-code: "https://github.com/USUARIO/que-dicen-las-politicas-publicas-de-bogota"
 date-released: "2026-11-15"
 license:
   - MIT
