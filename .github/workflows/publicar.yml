@@ -35,7 +35,7 @@ jobs:
       name: github-pages
       url: ${{ steps.despliegue.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # el mismo cambio que pasó la verificación
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
